@@ -1,0 +1,36 @@
+---
+// Author.astro
+import '../styles/author.css';
+
+// In a real implementation, this would come from a config file
+const author = {
+  name: "Author Name",
+  thumbnail: "/images/author.jpg",
+  facebook: "https://facebook.com/author",
+  twitter: "https://twitter.com/author",
+  github: "https://github.com/author",
+  description: "Author description goes here. You can write a brief bio about yourself."
+};
+---
+
+<section class="sidebar">
+  <header>AUTHOR</header>
+  <div class="author">
+    {author.thumbnail && (
+      <div class="author-thumb" style={`background-image: url(${author.thumbnail});`}></div>
+    )}
+    <div class="author-name">{author.name}</div>
+    <ul class="author-facts">
+      {author.facebook && (
+        <li><a href={author.facebook} rel="noopener nofollow" target="_blank"><i class="fab fa-facebook" aria-hidden="true"></i></a></li>
+      )}
+      {author.twitter && (
+        <li><a href={author.twitter} rel="noopener nofollow" target="_blank"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
+      )}
+      {author.github && (
+        <li><a href={author.github} rel="noopener nofollow" target="_blank"><i class="fab fa-github" aria-hidden="true"></i></a></li>
+      )}
+    </ul>
+    <div class="author-description" set:html={author.description}></div>
+  </div>
+</section>

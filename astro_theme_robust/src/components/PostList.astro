@@ -1,0 +1,33 @@
+---
+// PostList.astro
+import PostListItem from './PostListItem.astro';
+
+const { posts, title, isHome = false, page } = Astro.props;
+---
+
+{!isHome && title && (
+  <header class="page-title">
+    <h1 class="title">{title}</h1>
+  </header>
+)}
+
+<div class="articles">
+  <div class="mrow">
+    {posts.map((post) => (
+      <div class="mcol c6">
+        <PostListItem post={post} />
+      </div>
+    ))}
+  </div>
+</div>
+
+{page && (page.url.prev || page.url.next) && (
+  <nav class="paging">
+    {page.url.prev && (
+      <a href={page.url.prev} rel="prev">Prev</a>
+    )}
+    {page.url.next && (
+      <a href={page.url.next} rel="next">Next</a>
+    )}
+  </nav>
+)}

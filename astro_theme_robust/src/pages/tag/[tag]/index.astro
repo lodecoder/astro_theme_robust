@@ -1,0 +1,43 @@
+---
+// src/pages/tag/[tag]/index.astro
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostList from '../../../components/PostList.astro';
+import { type GetStaticPaths } from 'astro';
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('blog', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+
+  // Extract all tags
+  const tags = [...new Set(posts.flatMap(post => post.data.tags || []))];
+
+  // Create a path for each tag
+  return tags.map(tag => {
+    // Filter posts with this tag
+    const filteredPosts = posts.filter(post =>
+      post.data.tags && post.data.tags.includes(tag)
+    );
+
+    return {
+      params: { tag: tag.toLowerCase().replace(/\s+/g, '-') },
+      props: { tag, posts: filteredPosts },
+    };
+  });
+}) satisfies GetStaticPaths
+
+const { tag, posts } = Astro.props;
+
+// Sort posts by date
+const sortedPosts = posts.sort((a, b) =>
+  new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
+);
+---
+
+<BaseLayout title={`Tag: ${tag}`} description={`All posts tagged with ${tag}`}>
+  <PostList
+    posts={sortedPosts}
+    title={`Tag: ${tag}`}
+  />
+</BaseLayout>

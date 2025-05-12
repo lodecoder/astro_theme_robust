@@ -1,0 +1,63 @@
+---
+// BaseLayout.astro
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Sidebar from '../components/Sidebar.astro';
+import Meta from '../components/Meta.astro';
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+}
+
+const { title, description, image = '/images/default.jpg', article = false } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="pinterest" content="nopin" />
+    <meta name="theme-color" content="#263238" />
+    
+    <title>{title}</title>
+    
+    <Meta 
+      title={title}
+      description={description}
+      image={image}
+      article={article}
+    />
+    
+    <link rel="dns-prefetch preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch preconnect" href="https://use.fontawesome.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" crossorigin="anonymous" />
+    <link rel="apple-touch-icon" href="/images/logo.png" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <div class="l-container">
+        <div class="mrow">
+          <div class="mcol c8">
+            <slot />
+          </div>
+          <div class="mcol c4">
+            <aside class="l-sidebar">
+              <Sidebar />
+            </aside>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+  </body>
+</html>

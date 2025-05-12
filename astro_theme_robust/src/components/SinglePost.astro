@@ -1,0 +1,210 @@
+---
+import type { CollectionEntry } from "astro:content"
+import Share from "./Share.astro"
+import { render } from "astro:content"
+
+type Props = {
+	post: CollectionEntry<"blog">
+	prevPost: CollectionEntry<"blog"> | null
+	nextPost: CollectionEntry<"blog"> | null
+}
+
+const { post, prevPost, nextPost } = Astro.props
+const { data } = post
+const { title, date, lastmod, category, tags, thumbnail, draft, toc, slug } =
+	data
+
+// Format dates
+const formatDate = (date: Date) => {
+	return new Date(date).toLocaleDateString("en-US", {
+		year: "numeric",
+		month: "short",
+		day: "numeric"
+	})
+}
+
+const formattedDate = formatDate(date)
+const formattedLastmod = lastmod ? formatDate(lastmod) : null
+
+const { Content, headings } = await render(post);
+
+
+// Generate a unique ID for the thumb
+const uniqueId = slug.replace(/[^a-z0-9]/gi, "")
+---
+
+<article class="sn">
+  <div
+    class={`thumb thumb-${uniqueId}`}
+    style={thumbnail ? `background-image: url(${thumbnail})` : ""}
+  >
+  </div>
+
+  <header class="article-header">
+    <h1 class="title">{title}</h1>
+
+    <ul class="facts">
+      <li>
+        <i class="fas fa-calendar" aria-hidden="true"></i>
+        <time datetime={date.toISOString()}>{formattedDate}</time>
+      </li>
+
+      {
+        formattedLastmod && formattedLastmod !== formattedDate
+					&& (
+          <li>
+            <i class="fas fa-sync" aria-hidden="true"></i>
+            <time datetime={lastmod?.toISOString()}>{formattedLastmod}</time>
+          </li>
+        )
+      }
+
+      {
+        category && (
+          <li>
+            <i class="fas fa-bookmark" aria-hidden="true"></i>
+            <a
+              href={`/category/${
+              	category.toLowerCase().replace(/\s+/g, "-")
+              }/`}
+            >{category.toUpperCase()}</a>
+          </li>
+        )
+      }
+
+      {import.meta.env.DEV && <li>{post.body?.split(/\s+/).length ?? 0} Words</li>}
+
+      {draft && <li style="color: #2196f3">DRAFT</li>}
+    </ul>
+
+    <Share url={Astro.url.href} title={title} />
+  </header>
+
+    {toc && <div class="toc" style="margin: 0 0 20px 10px;">
+      {headings.map(h =>
+        (<div style={`padding-left: ${h.depth * 10}px`}>
+          <a href={'#' + h.slug}>{h.text}</a>
+        </div>)
+      )}
+    </div>
+  }
+
+  <div class="article-body">
+    <Content />
+  </div>
+
+  <footer class="article-footer">
+    <Share url={Astro.url.href} title={title} />
+
+    {
+      tags && tags.length > 0 && (
+        <section class="footer">
+          <header>TAGS</header>
+          <ul class="terms">
+            {
+              tags.map(tag => (
+                <li>
+                  <a href={`/tag/${tag.toLowerCase().replace(/\s+/g, "-")}/`}>{
+                    tag
+                  }</a>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      )
+    }
+  </footer>
+</article>
+
+<div class="adj mrow">
+  <div class="mcol c6">
+    <header>Next Article</header>
+    {
+      nextPost && (
+        <article class="lism">
+          <a href={`/${nextPost.data.slug}/`}>
+            <div
+              class={`thumb thumb-${
+              	nextPost.data.slug.replace(/[^a-z0-9]/gi, "")
+              }`}
+              style={nextPost.data.thumbnail
+              ? `background-image: url(${nextPost.data.thumbnail})`
+              : ""}
+            >
+            </div>
+
+            <div class="inner">
+              <div class="title">{nextPost.data.title}</div>
+
+              <ul class="facts sm">
+                <li>
+                  <i class="fas fa-calendar" aria-hidden="true"></i>
+                  <time datetime={nextPost.data.date.toISOString()}>{
+                    formatDate(nextPost.data.date)
+                  }</time>
+                </li>
+                {
+                  nextPost.data.category && (
+                    <li>
+                      <i class="fas fa-bookmark" aria-hidden="true"></i>
+                      {nextPost.data.category.toUpperCase()}
+                    </li>
+                  )
+                }
+                {nextPost.data.draft && <li style="color: #2196f3">DRAFT</li>}
+              </ul>
+            </div>
+          </a>
+        </article>
+      )
+    }
+  </div>
+
+  <div class="mcol c6">
+    <header>Previous Article</header>
+    {
+      prevPost && (
+        <article class="lism">
+          <a href={`/${prevPost.data.slug}/`}>
+            <div
+              class={`thumb thumb-${
+              	prevPost.data.slug.replace(/[^a-z0-9]/gi, "")
+              }`}
+              style={prevPost.data.thumbnail
+              ? `background-image: url(${prevPost.data.thumbnail})`
+              : ""}
+            >
+            </div>
+
+            <div class="inner">
+              <div class="title">{prevPost.data.title}</div>
+
+              <ul class="facts sm">
+                <li>
+                  <i class="fas fa-calendar" aria-hidden="true"></i>
+                  <time datetime={prevPost.data.date.toISOString()}>{
+                    formatDate(prevPost.data.date)
+                  }</time>
+                </li>
+                {
+                  prevPost.data.category && (
+                    <li>
+                      <i class="fas fa-bookmark" aria-hidden="true"></i>
+                      {prevPost.data.category.toUpperCase()}
+                    </li>
+                  )
+                }
+                {prevPost.data.draft && <li style="color: #2196f3">DRAFT</li>}
+              </ul>
+            </div>
+          </a>
+        </article>
+      )
+    }
+  </div>
+</div>
+
+<div id="comments">
+  <!-- Add your comment system here -->
+</div>

@@ -1,0 +1,49 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+type Props = {
+  post: CollectionEntry<'blog'>
+}
+
+const { post } = Astro.props;
+const { title, date, category, thumbnail, draft, slug } = post.data
+
+// Format the date
+const formattedDate = new Date(date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric'
+});
+
+// Generate a unique ID for the thumb (in Hugo this was File.UniqueID)
+const uniqueId = slug.replace(/[^a-z0-9]/gi, '');
+---
+
+<article class="lism">
+  <a href={`/${slug}/`}>
+    <div class={`thumb thumb-${uniqueId}`} style={thumbnail ? `background-image: url(${thumbnail})` : ''}></div>
+
+    <div class="inner">
+      <div class="title">{title}</div>
+
+      <ul class="facts sm">
+        <li>
+          <i class="fas fa-calendar" aria-hidden="true"></i>
+          <time datetime={date.toISOString()}>{formattedDate}</time>
+        </li>
+        {category && (
+          <li>
+            <i class="fas fa-bookmark" aria-hidden="true"></i>
+            {category.toUpperCase()}
+          </li>
+        )}
+        {import.meta.env.DEV && (
+          <li>{post.body?.length ?? 0} Words</li>
+        )}
+        {draft && (
+          <li style="color: #2196f3;">DRAFT</li>
+        )}
+      </ul>
+    </div>
+  </a>
+</article>

@@ -1,0 +1,21 @@
+{
+  "name": "robust-astro-theme",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.2.6",
+    "@astrojs/rss": "^4.0.11",
+    "@astrojs/sitemap": "^3.3.1",
+    "astro": "^5.7.12"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.3"
+  }
+}

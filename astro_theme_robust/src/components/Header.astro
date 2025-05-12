@@ -1,0 +1,21 @@
+---
+// Header.astro
+const { title, description } = Astro.props;
+import { getCollection } from 'astro:content';
+
+// Get site config 
+const siteTitle = Astro.props.title || "Robust Astro Theme";
+const siteDescription = Astro.props.description || "";
+---
+
+<header class="l-header">
+  <h1 class="logo">
+    <a href="/">{siteTitle}</a>
+  </h1>
+  
+  {siteDescription && (
+    <span class="description">
+      {siteDescription}
+    </span>
+  )}
+</header>
