@@ -1,0 +1,31 @@
+---
+// src/pages/index.astro
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostList from '../components/PostList.astro';
+
+// Get site metadata
+const siteTitle = "Robust Astro Theme";
+const siteDescription = "A port of the Robust Hugo theme for Astro";
+
+// Get all blog posts
+const allPosts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+// Sort by date (newest first)
+const sortedPosts = allPosts.sort(
+  (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
+);
+
+// Implement pagination (simplified for this example)
+const postsPerPage = 10;
+const posts = sortedPosts.slice(0, postsPerPage);
+---
+
+<BaseLayout title={siteTitle} description={siteDescription}>
+  <PostList 
+    posts={posts} 
+    isHome={true}
+  />
+</BaseLayout>

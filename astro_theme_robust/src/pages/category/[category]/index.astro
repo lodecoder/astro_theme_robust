@@ -1,0 +1,41 @@
+---
+// src/pages/category/[category]/index.astro
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostList from '../../../components/PostList.astro';
+import { type GetStaticPaths } from 'astro';
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('blog', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+
+  // Extract all categories
+  const categories = [...new Set(posts.map(post => post.data.category).filter(Boolean))];
+
+  // Create a path for each category
+  return categories.map(category => {
+    // Filter posts with this category
+    const filteredPosts = posts.filter(post => post.data.category === category);
+
+    return {
+      params: { category: category?.toLowerCase().replace(/\s+/g, '-') ?? '' },
+      props: { category, posts: filteredPosts },
+    };
+  });
+}) satisfies GetStaticPaths
+
+const { category, posts } = Astro.props;
+
+// Sort posts by date
+const sortedPosts = posts.sort((a, b) =>
+  new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
+);
+---
+
+<BaseLayout title={`Category: ${category}`} description={`All posts in ${category}`}>
+  <PostList
+    posts={sortedPosts}
+    title={`Category: ${category}`}
+  />
+</BaseLayout>

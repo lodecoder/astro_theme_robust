@@ -1,0 +1,63 @@
+---
+// src/components/Meta.astro
+const { title, description, image, article = false } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(image || '/images/default.png', Astro.site);
+const siteName = "Robust Astro Theme";
+---
+
+<!-- SEO -->
+<meta name="description" content={description}>
+<link rel="canonical" href={canonicalURL}>
+
+<!-- Open Graph -->
+<meta property="og:title" content={`${title} - ${siteName}`}>
+<meta property="og:type" content={article ? "article" : "website"}>
+<meta property="og:url" content={canonicalURL}>
+<meta property="og:image" content={imageURL}>
+<meta property="og:site_name" content={siteName}>
+<meta property="og:description" content={description}>
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content={siteName}>
+<meta name="twitter:url" content={canonicalURL}>
+<meta name="twitter:title" content={`${title} - ${siteName}`}>
+<meta name="twitter:description" content={description}>
+<meta name="twitter:image" content={imageURL}>
+
+{article && (
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "http://schema.org",
+    "@type": "NewsArticle",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": canonicalURL
+    },
+    "headline": `${title} - ${siteName}`,
+    "image": {
+      "@type": "ImageObject",
+      "url": imageURL,
+      "height": 800,
+      "width": 800
+    },
+    "datePublished": new Date().toISOString(),
+    "dateModified": new Date().toISOString(),
+    "author": {
+      "@type": "Person",
+      "name": siteName
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": siteName,
+      "logo": {
+        "@type": "ImageObject",
+        "url": new URL("/images/logo.png", Astro.site),
+        "width": 600,
+        "height": 60
+      }
+    },
+    "description": description
+  })}></script>
+)}

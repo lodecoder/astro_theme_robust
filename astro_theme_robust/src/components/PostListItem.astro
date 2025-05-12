@@ -1,0 +1,61 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+type Props = {
+  post: CollectionEntry<'blog'>
+}
+
+const { post } = Astro.props;
+const { data, body } = post;
+const { title, date, category, thumbnail, draft, slug } = data;
+
+// Format the date
+const formattedDate = new Date(date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric'
+});
+
+// Generate a unique ID for the thumb
+const uniqueId = slug.replace(/[^a-z0-9]/gi, '');
+
+// Get summary (first 200 characters)
+let summary = '';
+if (body) {
+  summary = body.substring(0, 200).trim();
+  if (body.length > 200) {
+    summary += '...';
+  }
+}
+---
+
+<article class="li">
+  <a href={`/${slug}/`}>
+    <div class={`thumb thumb-${uniqueId}`} style={thumbnail ? `background-image: url(${thumbnail})` : ''}></div>
+
+    <div class="inner">
+      <h2 class="title">{title}</h2>
+
+      <ul class="facts">
+        <li>
+          <i class="fas fa-calendar" aria-hidden="true"></i>
+          <time datetime={date.toISOString()}>{formattedDate}</time>
+        </li>
+        {category && (
+          <li>
+            <i class="fas fa-bookmark" aria-hidden="true"></i>
+            {category.toUpperCase()}
+          </li>
+        )}
+        {import.meta.env.DEV && (
+          <li>{body?.split(/\s+/).length ?? 0} Words</li>
+        )}
+        {draft && (
+          <li style="color: #2196f3;">DRAFT</li>
+        )}
+      </ul>
+
+      <div class="summary">{summary}</div>
+    </div>
+  </a>
+</article>

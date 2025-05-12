@@ -1,0 +1,43 @@
+---
+import { type CollectionEntry, getCollection, render } from "astro:content"
+import SinglePost from "../components/SinglePost.astro"
+import BaseLayout from "./BaseLayout.astro"
+
+type Props = {
+	post: CollectionEntry<"blog">
+}
+
+const { post } = Astro.props
+
+// Get next and previous posts
+const allPosts = await getCollection("blog", ({ data }) => {
+	return import.meta.env.PROD ? !data.draft : true
+})
+
+// Sort by date (newest first)
+const sortedPosts = allPosts.sort(
+	(a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
+)
+
+// Find current post index
+const currentIndex = sortedPosts.findIndex(p => p.id === post.id)
+
+// Get next and previous posts
+const nextPost = currentIndex < sortedPosts.length - 1
+	? sortedPosts[currentIndex + 1]
+	: null
+const prevPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null
+
+// Prepare meta data
+const { title, description, thumbnail } = post.data
+const metaDescription = description || post.body?.substring(0, 200) || ""
+---
+
+<BaseLayout title={title} description={metaDescription} image={thumbnail}>
+  <SinglePost
+    post={post}
+    prevPost={prevPost}
+    nextPost={nextPost}
+  >
+  </SinglePost>
+</BaseLayout>

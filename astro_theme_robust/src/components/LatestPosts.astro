@@ -1,0 +1,22 @@
+---
+// LatestPosts.astro
+import { getCollection } from 'astro:content';
+import PostListItemSmall from './PostListItemSmall.astro';
+
+// Get all blog posts
+const allPosts = await getCollection('blog');
+
+// Sort by date (newest first) and take the 10 most recent
+const recentPosts = allPosts
+  .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf())
+  .slice(0, 10);
+---
+
+<section class="sidebar">
+  <header>LATEST</header>
+  <div class="articles sm">
+    {recentPosts.map((post) => (
+      <PostListItemSmall post={post} />
+    ))}
+  </div>
+</section>

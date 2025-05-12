@@ -1,0 +1,27 @@
+---
+// Categories.astro
+import { getCollection } from 'astro:content';
+import Taxonomy from './Taxonomy.astro';
+
+// Get all blog posts
+const allPosts = await getCollection('blog');
+
+// Extract categories and count
+const categories = allPosts.reduce((acc, post) => {
+  if (post.data.category) {
+    const category = post.data.category;
+    acc[category] = (acc[category] || 0) + 1;
+  }
+  return acc;
+}, {});
+
+// Convert to array of objects, sort by count (descending)
+const sortedCategories = Object.entries(categories)
+  .map(([name, count]) => ({ name, count }))
+  .sort((a, b) => b.count - a.count)
+  .slice(0, 10); // Only show top 10
+---
+
+{sortedCategories.length > 0 && (
+  <Taxonomy title="CATEGORIES" items={sortedCategories} baseUrl="/category/" />
+)}

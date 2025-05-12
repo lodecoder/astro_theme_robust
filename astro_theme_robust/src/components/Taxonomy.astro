@@ -1,0 +1,17 @@
+---
+// Taxonomy.astro
+const { title, items, baseUrl } = Astro.props;
+---
+
+<section class="sidebar">
+  <header>{title}</header>
+  <ul class="terms">
+    {items.map(item => (
+      <li>
+        <a href={`${baseUrl}${item.name.toLowerCase().replace(/\s+/g, '-')}/`}>
+          {item.name} <span class="count">({item.count})</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>
