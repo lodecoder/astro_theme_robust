@@ -1,0 +1,31 @@
+{
+    "folders": [
+        {
+            "path": "./"
+        }
+    ],
+    "settings": {
+        "[astro]": {
+            "editor.defaultFormatter": "dprint.dprint"
+        },
+        "[json]": {
+            "editor.defaultFormatter": "vscode.json-language-features"
+        },
+        "[markdown]": {
+            "editor.defaultFormatter": "dprint.dprint",
+            "editor.formatOnSave": true
+        },
+        "[javascript]": {
+            "editor.defaultFormatter": "dprint.dprint",
+            "editor.formatOnSave": true
+        },
+        "[typescript]": {
+            "editor.defaultFormatter": "dprint.dprint",
+            "editor.formatOnSave": true
+        },
+        "[typescriptreact]": {
+            "editor.defaultFormatter": "dprint.dprint",
+            "editor.formatOnSave": true
+        }
+    }
+}
