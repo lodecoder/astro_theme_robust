@@ -4,7 +4,7 @@ title: "Getting Started with Astro"
 description: "A brief introduction to Astro and how to get started with it."
 date: 2023-06-15
 lastmod: 2023-06-20
-thumbnail: "/images/astro.jpg"
+thumbnail: "/images/thumbnail.jpg"
 category: "Web Development"
 tags: ["astro", "web", "javascript", "tutorial"]
 draft: false

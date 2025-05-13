@@ -72,7 +72,7 @@ const uniqueId = slug.replace(/[^a-z0-9]/gi, "")
         )
       }
 
-      {import.meta.env.DEV && <li>{post.body?.split(/\s+/).length ?? 0} Words</li>}
+      {import.meta.env.DEV && <li>{post.body?.length ?? 0} Words</li>}
 
       {draft && <li style="color: #2196f3">DRAFT</li>}
     </ul>

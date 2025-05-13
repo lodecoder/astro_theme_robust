@@ -48,7 +48,7 @@ if (body) {
           </li>
         )}
         {import.meta.env.DEV && (
-          <li>{body?.split(/\s+/).length ?? 0} Words</li>
+          <li>{body?.length ?? 0} Words</li>
         )}
         {draft && (
           <li style="color: #2196f3;">DRAFT</li>
