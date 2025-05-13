@@ -1,18 +1,15 @@
 ---
-// Header.astro
-const { title, description } = Astro.props;
-import { getCollection } from 'astro:content';
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts"
 
-// Get site config 
-const siteTitle = Astro.props.title || "Robust Astro Theme";
-const siteDescription = Astro.props.description || "";
+const siteTitle = Astro.props.title || SITE_TITLE || "Robust Astro Theme";
+const siteDescription = Astro.props.description || SITE_DESCRIPTION || "";
 ---
 
 <header class="l-header">
   <h1 class="logo">
     <a href="/">{siteTitle}</a>
   </h1>
-  
+
   {siteDescription && (
     <span class="description">
       {siteDescription}
