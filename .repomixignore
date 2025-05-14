@@ -1,0 +1,18 @@
+# Add patterns to ignore here, one per line
+# Example:
+# *.log
+# tmp/
+
+astro_theme_robust/src/content/**/*
+
+*-lock.*
+*.lock
+
+.editorconfig
+.github/
+archetypes/
+*repomix*
+*.code-workspace
+dprint.json
+LICENSE.md
+README.md
