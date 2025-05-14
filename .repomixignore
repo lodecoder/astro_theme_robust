@@ -3,6 +3,7 @@
 # *.log
 # tmp/
 
+docs/
 astro_theme_robust/src/content/**/*
 
 *-lock.*
