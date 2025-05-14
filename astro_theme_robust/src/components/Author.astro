@@ -1,16 +1,6 @@
 ---
-// Author.astro
 import '../styles/author.css';
-
-// In a real implementation, this would come from a config file
-const author = {
-  name: "Author Name",
-  thumbnail: "/images/author.jpg",
-  facebook: "https://facebook.com/author",
-  twitter: "https://twitter.com/author",
-  github: "https://github.com/author",
-  description: "Author description goes here. You can write a brief bio about yourself."
-};
+import { author } from '../config';
 ---
 
 <section class="sidebar">

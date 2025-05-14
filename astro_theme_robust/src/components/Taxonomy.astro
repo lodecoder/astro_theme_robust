@@ -1,5 +1,10 @@
 ---
-// Taxonomy.astro
+type Props = {
+  title: string;
+  items: Array<{ name: string; count: number }>;
+  baseUrl: string;
+};
+
 const { title, items, baseUrl } = Astro.props;
 ---
 

@@ -1,16 +1,15 @@
 ---
-// src/components/Img.astro
 const { src, caption, href, width, height, class: className } = Astro.props;
 ---
 
 <figure class={className}>
-  <img 
-    src={src} 
-    alt={caption} 
-    width={width} 
+  <img
+    src={src}
+    alt={caption}
+    width={width}
     height={height}
   />
-  
+
   {caption && (
     <figcaption>
       {href ? (

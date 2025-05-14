@@ -5,8 +5,8 @@ import { render } from "astro:content"
 
 type Props = {
 	post: CollectionEntry<"blog">
-	prevPost: CollectionEntry<"blog"> | null
-	nextPost: CollectionEntry<"blog"> | null
+	prevPost: CollectionEntry<"blog"> | undefined
+	nextPost: CollectionEntry<"blog"> | undefined
 }
 
 const { post, prevPost, nextPost } = Astro.props
@@ -27,7 +27,6 @@ const formattedDate = formatDate(date)
 const formattedLastmod = lastmod ? formatDate(lastmod) : null
 
 const { Content, headings } = await render(post);
-
 
 // Generate a unique ID for the thumb
 const uniqueId = slug.replace(/[^a-z0-9]/gi, "")

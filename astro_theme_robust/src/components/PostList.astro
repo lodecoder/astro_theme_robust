@@ -1,6 +1,13 @@
 ---
-// PostList.astro
+import type { CollectionEntry } from 'astro:content';
 import PostListItem from './PostListItem.astro';
+
+type Props = {
+  posts: CollectionEntry<'blog'>[];
+  title: string;
+  isHome?: boolean;
+  page?: { url: { prev?: string; next?: string } };
+};
 
 const { posts, title, isHome = false, page } = Astro.props;
 ---

@@ -1,15 +1,13 @@
 ---
-// Footer.astro
-const year = new Date().getFullYear();
-const siteName = "Robust Astro Theme";
+import { AUTHOR_NAME, COPYRIGHT_YEAR } from '../config';
 ---
 
 <footer class="l-footer">
   <div class="l-container">
-    <p>&copy; {year} {siteName}</p>
+    <p>&copy; {COPYRIGHT_YEAR} {AUTHOR_NAME}</p>
     <aside>
       <p>Powered by <a href="https://astro.build/">Astro</a>.</p>
-      <p>Original <a href="https://github.com/dim0627/hugo_theme_robust">Robust</a> theme designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>
+      <p><a href="https://github.com/lodecoder/astro_theme_robust">Site theme</a> is a custom version of <a href="https://github.com/dim0627/hugo_theme_robust">Robust</a> theme designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>
     </aside>
   </div>
 </footer>

@@ -1,27 +1,28 @@
 ---
-// Categories.astro
-import { getCollection } from 'astro:content';
-import Taxonomy from './Taxonomy.astro';
+import { getCollection } from "astro:content"
+import Taxonomy from "./Taxonomy.astro"
 
-// Get all blog posts
-const allPosts = await getCollection('blog');
+const allPosts = await getCollection("blog")
 
-// Extract categories and count
-const categories = allPosts.reduce((acc, post) => {
-  if (post.data.category) {
-    const category = post.data.category;
-    acc[category] = (acc[category] || 0) + 1;
-  }
-  return acc;
-}, {});
+const categories = Object.entries(
+	allPosts.reduce<Record<string, number>>((acc, post) => {
+		if (post.data.category) {
+			const category = post.data.category
+			acc[category] = (acc[category] || 0) + 1
+		}
+		return acc
+	}, {})
+).map(([name, count]) => ({ name, count }))
 
-// Convert to array of objects, sort by count (descending)
-const sortedCategories = Object.entries(categories)
-  .map(([name, count]) => ({ name, count }))
-  .sort((a, b) => b.count - a.count)
-  .slice(0, 10); // Only show top 10
+const sortedCategories = categories.sort((a, b) => b.count - a.count)
 ---
 
-{sortedCategories.length > 0 && (
-  <Taxonomy title="CATEGORIES" items={sortedCategories} baseUrl="/category/" />
-)}
+{
+  sortedCategories.length > 0 && (
+    <Taxonomy
+      title="CATEGORIES"
+      items={sortedCategories}
+      baseUrl="/category/"
+    />
+  )
+}

@@ -1,26 +1,19 @@
 ---
-// Tags.astro
 import { getCollection } from 'astro:content';
 import Taxonomy from './Taxonomy.astro';
 
-// Get all blog posts
 const allPosts = await getCollection('blog');
 
-// Extract tags and count
-const tags = allPosts.reduce((acc, post) => {
+const tags = Object.entries(allPosts.reduce<Record<string, number>>((acc, post) => {
   if (post.data.tags && Array.isArray(post.data.tags)) {
     post.data.tags.forEach(tag => {
       acc[tag] = (acc[tag] || 0) + 1;
     });
   }
   return acc;
-}, {});
+}, {})).map(([name, count]) => ({ name, count }))
 
-// Convert to array of objects, sort by count (descending)
-const sortedTags = Object.entries(tags)
-  .map(([name, count]) => ({ name, count }))
-  .sort((a, b) => b.count - a.count)
-  .slice(0, 10); // Only show top 10
+const sortedTags = tags.sort((a, b) => b.count - a.count)
 ---
 
 {sortedTags.length > 0 && (
