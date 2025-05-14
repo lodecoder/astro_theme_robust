@@ -7,7 +7,8 @@ export const author = {
 	name: "Author Name",
 	thumbnail: "/images/author.jpg",
 	facebook: "https://facebook.com/author",
-	twitter: "https://twitter.com/author",
+	twitter: "https://x.com/author",
 	github: "https://github.com/author",
+	url: "https://example.com/about",
 	description: "Author description goes here. You can write a brief bio about yourself."
 } as const

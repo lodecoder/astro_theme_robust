@@ -44,7 +44,7 @@ const uniqueId = slug.replace(/[^a-z0-9]/gi, "")
 
     <ul class="facts">
       <li>
-        <i class="fas fa-calendar" aria-hidden="true"></i>
+        <i class="fa-regular fa-calendar" aria-hidden="true"></i>
         <time datetime={date.toISOString()}>{formattedDate}</time>
       </li>
 
@@ -52,7 +52,7 @@ const uniqueId = slug.replace(/[^a-z0-9]/gi, "")
         formattedLastmod && formattedLastmod !== formattedDate
 					&& (
           <li>
-            <i class="fas fa-sync" aria-hidden="true"></i>
+            <i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i>
             <time datetime={lastmod?.toISOString()}>{formattedLastmod}</time>
           </li>
         )
@@ -61,7 +61,7 @@ const uniqueId = slug.replace(/[^a-z0-9]/gi, "")
       {
         category && (
           <li>
-            <i class="fas fa-bookmark" aria-hidden="true"></i>
+            <i class="fa-regular fa-bookmark" aria-hidden="true"></i>
             <a
               href={`/category/${
               	category.toLowerCase().replace(/\s+/g, "-")
@@ -138,7 +138,7 @@ const uniqueId = slug.replace(/[^a-z0-9]/gi, "")
 
               <ul class="facts sm">
                 <li>
-                  <i class="fas fa-calendar" aria-hidden="true"></i>
+                  <i class="fa-regular fa-calendar" aria-hidden="true"></i>
                   <time datetime={nextPost.data.date.toISOString()}>{
                     formatDate(nextPost.data.date)
                   }</time>
@@ -146,7 +146,7 @@ const uniqueId = slug.replace(/[^a-z0-9]/gi, "")
                 {
                   nextPost.data.category && (
                     <li>
-                      <i class="fas fa-bookmark" aria-hidden="true"></i>
+                      <i class="fa-regular fa-bookmark" aria-hidden="true"></i>
                       {nextPost.data.category.toUpperCase()}
                     </li>
                   )
@@ -181,7 +181,7 @@ const uniqueId = slug.replace(/[^a-z0-9]/gi, "")
 
               <ul class="facts sm">
                 <li>
-                  <i class="fas fa-calendar" aria-hidden="true"></i>
+                  <i class="fa-regular fa-calendar" aria-hidden="true"></i>
                   <time datetime={prevPost.data.date.toISOString()}>{
                     formatDate(prevPost.data.date)
                   }</time>
@@ -189,7 +189,7 @@ const uniqueId = slug.replace(/[^a-z0-9]/gi, "")
                 {
                   prevPost.data.category && (
                     <li>
-                      <i class="fas fa-bookmark" aria-hidden="true"></i>
+                      <i class="fa-regular fa-bookmark" aria-hidden="true"></i>
                       {prevPost.data.category.toUpperCase()}
                     </li>
                   )
